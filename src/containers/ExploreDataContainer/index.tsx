@@ -1,6 +1,7 @@
 import FormFilterDynamic from "@/components/organisms/FormFilterDynamic";
 import FormSearchDynamic from "@/components/organisms/FormSearchDynamic";
-import { filterFormType } from "@/types";
+import JobCard from "@/components/organisms/JobCard";
+import { JobType, filterFormType } from "@/types";
 import Image from "next/image";
 import React, { FC } from "react";
 
@@ -8,12 +9,22 @@ interface ExploreDataContainerProps {
   formFilter?: any;
   onSubmitFilter: (val: any) => Promise<void>;
   filterForms: filterFormType[];
+  loading: boolean;
+  title: string;
+  subtitle: string;
+  data: any[];
+  type: "job" | "company";
 }
 
 const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
   formFilter,
   onSubmitFilter,
   filterForms,
+  loading,
+  title,
+  subtitle,
+  data,
+  type,
 }) => {
   return (
     <>
@@ -23,7 +34,7 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
             <span className="text-5xl font-semibold">Find Your</span>
             <div className="relative">
               <span className="text-5xl font-semibold text-primary">
-                Dream Job
+                {title}
               </span>
               <div className="absolute top-10 w-[220px] h-10">
                 <Image
@@ -35,9 +46,7 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
               </div>
             </div>
           </div>
-          <div className="text-center text-gray-500">
-            Find your next career at companies like Hubspot, Nike, and Dropbox
-          </div>
+          <div className="text-center text-gray-500">{subtitle}</div>
         </div>
         <div>
           <FormSearchDynamic />
@@ -52,9 +61,42 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
           />
         </div>
         <div className="w-4/5">
-          <div className="text-xl font-semibold">All Jobs</div>
-          <div className="text-muted-foreground">Showing 73 Result</div>
-          <div>Job Card</div>
+          <div className="mb-8">
+            <div className="text-xl font-semibold">All Jobs</div>
+            <div className="text-muted-foreground">Showing 73 Result</div>
+          </div>
+          <div className="grid grid-cols-1 gap-7">
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              // <JobCard
+              //   applicants={5}
+              //   categories={["Marketing", "Design"]}
+              //   description="lorem"
+              //   image="/images/company2.png"
+              //   jobType="Full Time"
+              //   location="Paris, France"
+              //   name="Social Media Assistant"
+              //   needs={10}
+              //   type="Agency"
+              // />
+              <>
+                {type === "job" ? (
+                  <>
+                    {data?.map((item: any, i: number) => (
+                      <JobCard key={i} {...item} />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {data?.map((item: any, i: number) => (
+                      <div key={i}>Company Card</div>
+                    ))}
+                  </>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>
