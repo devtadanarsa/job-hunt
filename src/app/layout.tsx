@@ -3,6 +3,7 @@ import { Epilogue } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import Navbar from "@/components/layouts/Navbar";
+import Footer from "@/components/layouts/Footer";
 
 const epilogue = Epilogue({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={`${epilogue.className} relative overflow-x-hidden`}>
         <Navbar />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
