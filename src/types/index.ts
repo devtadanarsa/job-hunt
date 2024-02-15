@@ -7,3 +7,14 @@ export type JobType = {
   description: string;
   categories: string[];
 };
+
+export type optionType = {
+  id: string;
+  label: string;
+};
+
+export type filterFormType = {
+  label: string;
+  name: string;
+  items: optionType[];
+};
