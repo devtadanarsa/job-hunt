@@ -10,6 +10,14 @@ export type JobType = {
   applicants: number;
 };
 
+export type CompanyType = {
+  image: string;
+  totalJobs: number;
+  name: string;
+  description: string;
+  categories: string;
+};
+
 export type optionType = {
   id: string;
   label: string;

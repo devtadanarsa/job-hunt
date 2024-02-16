@@ -45,3 +45,30 @@ export const CATEGORIES_OPTIONS = [
     label: "Documents",
   },
 ];
+
+export const INDUSTRY_OPTIONS = [
+  {
+    id: "advertising",
+    label: "Advertising",
+  },
+  {
+    id: "business-service",
+    label: "Business Service",
+  },
+  {
+    id: "blockhain",
+    label: "Blockchain",
+  },
+  {
+    id: "cloud",
+    label: "Cloud",
+  },
+  {
+    id: "consumer-tech",
+    label: "Consumer Tech",
+  },
+  {
+    id: "education",
+    label: "Education",
+  },
+];

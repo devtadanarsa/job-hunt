@@ -1,3 +1,4 @@
+import CompanyCard from "@/components/organisms/CompanyCard";
 import FormFilterDynamic from "@/components/organisms/FormFilterDynamic";
 import FormSearchDynamic from "@/components/organisms/FormSearchDynamic";
 import JobCard from "@/components/organisms/JobCard";
@@ -31,7 +32,7 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
       <div className="bg-gray-200 px-32 pt-16 pb-14">
         <div className="mb-10">
           <div className="mx-auto mb-11 text-center flex justify-center gap-2">
-            <span className="text-5xl font-semibold">Find Your</span>
+            <span className="text-5xl font-semibold">Find your</span>
             <div className="relative">
               <span className="text-5xl font-semibold text-primary">
                 {title}
@@ -62,37 +63,30 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
         </div>
         <div className="w-4/5">
           <div className="mb-8">
-            <div className="text-xl font-semibold">All Jobs</div>
-            <div className="text-muted-foreground">Showing 73 Result</div>
+            <div className="text-xl font-semibold">
+              {type === "job" ? "All Jobs" : "All Companies"}
+            </div>
+            <div className="text-muted-foreground">
+              Showing {data.length} Result
+            </div>
           </div>
-          <div className="grid grid-cols-1 gap-7">
+          <div>
             {loading ? (
               <div>Loading...</div>
             ) : (
-              // <JobCard
-              //   applicants={5}
-              //   categories={["Marketing", "Design"]}
-              //   description="lorem"
-              //   image="/images/company2.png"
-              //   jobType="Full Time"
-              //   location="Paris, France"
-              //   name="Social Media Assistant"
-              //   needs={10}
-              //   type="Agency"
-              // />
               <>
                 {type === "job" ? (
-                  <>
+                  <div className="grid grid-cols-1 gap-7">
                     {data?.map((item: any, i: number) => (
                       <JobCard key={i} {...item} />
                     ))}
-                  </>
+                  </div>
                 ) : (
-                  <>
+                  <div className="grid grid-cols-3 gap-5">
                     {data?.map((item: any, i: number) => (
-                      <div key={i}>Company Card</div>
+                      <CompanyCard key={i} {...item} />
                     ))}
-                  </>
+                  </div>
                 )}
               </>
             )}

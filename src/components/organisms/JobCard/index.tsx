@@ -43,9 +43,6 @@ const JobCard: FC<JobCardProps> = ({
           <Button className="w-full" size="lg">
             Apply
           </Button>
-          {/* <div className="w-full h-2 mt-2 relative bg-gray-300">
-            <div className="w-full absolute h-2 bg-green-500"></div>
-          </div> */}
           <Progress
             value={(applicants / needs) * 100}
             className="mt-2 h-[10px]"

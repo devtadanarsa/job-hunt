@@ -50,7 +50,7 @@ const FindJobsPage = () => {
       formFilter={formFilter}
       onSubmitFilter={onSubmitFormFilter}
       filterForms={FILTER_FORMS}
-      title="Dream Job"
+      title="dream job"
       subtitle="Find your next career at companies like Hubspot, Nike, and Dropbox"
       loading={false}
       type="job"
