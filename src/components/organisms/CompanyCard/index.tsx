@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { CompanyType } from "@/types";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { FC } from "react";
 
 interface CompanyCardProps extends CompanyType {}
@@ -12,8 +13,13 @@ const CompanyCard: FC<CompanyCardProps> = ({
   description,
   categories,
 }) => {
+  const router = useRouter();
+
   return (
-    <div className="border border-border p-6">
+    <div
+      className="border border-border p-6 cursor-pointer"
+      onClick={() => router.push("/detail/company/1")}
+    >
       <div className="flex flex-row justify-between items-start">
         <Image src={image} alt={image} width={66} height={66} />
         <Badge>{totalJobs} Jobs</Badge>
