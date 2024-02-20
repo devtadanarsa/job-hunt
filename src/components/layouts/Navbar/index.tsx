@@ -37,7 +37,9 @@ const Navbar = () => {
         </div>
       </div>
       <div className="inline-flex items-center gap-4 h-8">
-        <Button variant="link">Login</Button>
+        <Button variant="link" onClick={() => router.push("/signin")}>
+          Login
+        </Button>
         <Button>Sign Up</Button>
       </div>
     </header>
