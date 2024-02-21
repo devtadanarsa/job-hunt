@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Epilogue } from "next/font/google";
 import "./../globals.css";
 import Image from "next/image";
+import { Toaster } from "@/components/ui/toaster";
 
 const epilogue = Epilogue({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             </div>
           </div>
         </main>
+        <Toaster />
       </body>
     </html>
   );

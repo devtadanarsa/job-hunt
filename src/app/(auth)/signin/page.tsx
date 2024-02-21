@@ -17,14 +17,34 @@ import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const SignInPage = () => {
   const form = useForm<z.infer<typeof formSignInSchema>>({
     resolver: zodResolver(formSignInSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSignInSchema>) => {
-    console.log(values);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const onSubmit = async (values: z.infer<typeof formSignInSchema>) => {
+    const authenticated = await signIn("credentials", {
+      ...values,
+      redirect: false,
+    });
+
+    if (authenticated?.error) {
+      toast({
+        title: "Error",
+        description: "Email or password maybe wrong",
+      });
+
+      return;
+    }
+
+    router.push("/");
   };
 
   return (
