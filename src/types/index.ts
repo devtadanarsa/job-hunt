@@ -1,13 +1,15 @@
 export type JobType = {
+  id: string;
   image: string;
   jobType: string;
   name: string;
   type: string;
   location: string;
   description: string;
-  categories: string[];
-  needs: number;
-  applicants: number;
+  categories: companyJobType;
+  needs?: number;
+  applicants?: number;
+  skills: string[];
 };
 
 export type CompanyType = {
@@ -27,4 +29,10 @@ export type filterFormType = {
   label: string;
   name: string;
   items: optionType[];
+};
+
+export type companyJobType = {
+  id: string;
+  name: string;
+  totalJobs: number;
 };

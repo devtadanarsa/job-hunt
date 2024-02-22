@@ -13,11 +13,12 @@ const JobItem: FC<JobItemProps> = ({
   type,
   location,
   categories,
+  skills,
 }) => {
   return (
     <div className="border border-border p-8 flex flex-row items-start gap-6 cursor-pointer">
       <div>
-        <Image src={image} alt={image} width={64} height={64} />
+        <Image src={image} alt={image} width={64} height={64} unoptimized />
       </div>
       <div>
         <div className="text-lg font-semibold">{name}</div>
@@ -27,10 +28,10 @@ const JobItem: FC<JobItemProps> = ({
         <div className="h-5 inline-flex gap-1 items-center">
           <Badge variant="secondary">{jobType}</Badge>
           <Separator orientation="vertical" />
-          {categories.map((item: string, i: number) => (
+          {skills.map((item: string, i: number) => (
             <Badge
+              key={item + i}
               variant="outline"
-              key={i}
               className="rounded border-primary bg-primary/5 text-primary"
             >
               {item}
