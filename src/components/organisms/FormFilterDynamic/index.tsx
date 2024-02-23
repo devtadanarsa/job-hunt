@@ -22,6 +22,7 @@ import { filterFormType } from "@/types";
 interface FormFilterDynamicProps {
   formFilter: any;
   onSubmitFilter: (val: any) => Promise<void>;
+  onResetFilter: any;
   filterForms: filterFormType[];
 }
 
@@ -29,6 +30,7 @@ const FormFilterDynamic: FC<FormFilterDynamicProps> = ({
   formFilter,
   onSubmitFilter,
   filterForms,
+  onResetFilter,
 }) => {
   return (
     <Form {...formFilter}>
@@ -43,7 +45,11 @@ const FormFilterDynamic: FC<FormFilterDynamicProps> = ({
           />
         ))}
         <Button className="mt-5 w-full rounded-none">Apply Filter</Button>
-        <Button className="mt-3 w-full rounded-none" variant="outline">
+        <Button
+          className="mt-3 w-full rounded-none"
+          variant="outline"
+          onClick={() => onResetFilter()}
+        >
           Reset Filter
         </Button>
       </form>

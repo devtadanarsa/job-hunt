@@ -9,6 +9,7 @@ import React, { FC } from "react";
 interface ExploreDataContainerProps {
   formFilter?: any;
   onSubmitFilter: (val: any) => Promise<void>;
+  onResetFilter: () => any;
   filterForms: filterFormType[];
   loading: boolean;
   title: string;
@@ -20,6 +21,7 @@ interface ExploreDataContainerProps {
 const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
   formFilter,
   onSubmitFilter,
+  onResetFilter,
   filterForms,
   loading,
   title,
@@ -59,6 +61,7 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
             formFilter={formFilter}
             onSubmitFilter={onSubmitFilter}
             filterForms={filterForms}
+            onResetFilter={onResetFilter}
           />
         </div>
         <div className="w-4/5">

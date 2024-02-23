@@ -2,22 +2,19 @@
 
 import ExploreDataContainer from "@/containers/ExploreDataContainer";
 import { formFilterSchema } from "@/lib/form-schema";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { JobType, filterFormType } from "@/types";
 import { CATEGORIES_OPTIONS } from "@/constants";
-
-const FILTER_FORMS: filterFormType[] = [
-  {
-    name: "categories",
-    label: "Categories",
-    items: CATEGORIES_OPTIONS,
-  },
-];
+import useFeaturedJobs from "@/hooks/useFeaturedJobs";
+import useCategoryJobFilter from "@/hooks/useCategoryJobFilter";
+import useJobs from "@/hooks/useJobs";
 
 const FindJobsPage = () => {
+  const { filters } = useCategoryJobFilter();
+
   const formFilter = useForm<z.infer<typeof formFilterSchema>>({
     resolver: zodResolver(formFilterSchema),
     defaultValues: {
@@ -25,36 +22,30 @@ const FindJobsPage = () => {
     },
   });
 
+  const [categories, setCategories] = useState<string[]>([]);
+  const { jobList, mutate, isLoading } = useJobs(categories);
+
   const onSubmitFormFilter = async (
     values: z.infer<typeof formFilterSchema>
   ) => {
-    console.log(values);
+    setCategories(values.categories);
   };
 
-  const dummyData: JobType[] = [
-    {
-      applicants: 5,
-      categories: ["Marketing", "Design"],
-      description: "lorem",
-      image: "/images/company2.png",
-      jobType: "Full Time",
-      location: "Paris, France",
-      name: "Social Media Assistant",
-      needs: 10,
-      type: "Agency",
-    },
-  ];
+  const onResetFilter = () => {
+    formFilter.setValue("categories", []);
+  };
 
   return (
     <ExploreDataContainer
       formFilter={formFilter}
       onSubmitFilter={onSubmitFormFilter}
-      filterForms={FILTER_FORMS}
+      onResetFilter={onResetFilter}
+      filterForms={filters}
       title="dream job"
       subtitle="Find your next career at companies like Hubspot, Nike, and Dropbox"
       loading={false}
       type="job"
-      data={dummyData}
+      data={jobList}
     />
   );
 };
