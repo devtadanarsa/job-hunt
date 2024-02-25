@@ -18,6 +18,7 @@ const JobCard: FC<JobCardProps> = ({
   skills,
   needs,
   applicants,
+  id,
 }) => {
   const router = useRouter();
 
@@ -46,7 +47,7 @@ const JobCard: FC<JobCardProps> = ({
           <Button
             className="w-full"
             size="lg"
-            onClick={() => router.push("/detail/job/1")}
+            onClick={() => router.push(`/detail/job/${id}`)}
           >
             Apply
           </Button>

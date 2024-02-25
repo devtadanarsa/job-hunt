@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import bcrypt from "bcryptjs";
 import { JobType, companyJobType, optionType } from "@/types";
 import { supabaseClient, supabasePublicUrl } from "./supabase";
+import dayjs from "dayjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -144,4 +145,11 @@ export const parsingCompanies = async (
   }
 
   return [];
+};
+
+export const dateFormat = (
+  date: Date | string,
+  format: string = "MMM DD, YYYY"
+) => {
+  return dayjs(date).format(format);
 };
