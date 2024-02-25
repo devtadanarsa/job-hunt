@@ -24,6 +24,7 @@ interface FormFilterDynamicProps {
   onSubmitFilter: (val: any) => Promise<void>;
   onResetFilter: any;
   filterForms: filterFormType[];
+  isIndustry?: boolean;
 }
 
 const FormFilterDynamic: FC<FormFilterDynamicProps> = ({
@@ -31,6 +32,7 @@ const FormFilterDynamic: FC<FormFilterDynamicProps> = ({
   onSubmitFilter,
   filterForms,
   onResetFilter,
+  isIndustry,
 }) => {
   return (
     <Form {...formFilter}>
@@ -42,6 +44,7 @@ const FormFilterDynamic: FC<FormFilterDynamicProps> = ({
             items={item.items}
             label={item.label}
             name={item.name}
+            isIndustry={isIndustry}
           />
         ))}
         <Button className="mt-5 w-full rounded-none">Apply Filter</Button>

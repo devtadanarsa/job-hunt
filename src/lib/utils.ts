@@ -90,15 +90,57 @@ export const parsingJobItem = async (
 export const parsingCategoriesToOption = (
   data: any,
   isLoading: boolean,
-  error: any
+  error: any,
+  isIndustry?: boolean
 ) => {
   if (!isLoading && !error && data) {
     return data.map((item: any) => {
       return {
-        id: item.id,
+        id: isIndustry ? item.name : item.id,
         label: item.name,
       } as optionType;
     }) as optionType[];
+  }
+
+  return [];
+};
+
+export const parsingCompanies = async (
+  data: any,
+  isLoading: boolean,
+  error: any
+) => {
+  if (!isLoading && !error && data) {
+    return await Promise.all(
+      data.map(async (item: any) => {
+        let imageName = item.Company?.CompanyOverview[0]?.image;
+        let imageUrl;
+
+        if (imageName) {
+          imageUrl = await supabasePublicUrl(imageName, "company");
+        } else {
+          imageUrl = "/images/company2.png";
+        }
+
+        const companyDetail = item.CompanyOverview[0];
+
+        return {
+          id: item.id,
+          name: companyDetail.name,
+          image: imageUrl,
+          totalJobs: item._count.Job,
+          description: companyDetail.description,
+          website: companyDetail.website,
+          location: companyDetail.location,
+          industry: companyDetail.industry,
+          dateFounded: companyDetail.dateFounded,
+          techStack: companyDetail.techStack,
+          employee: companyDetail.industry,
+          socialMedia: item.CompanySocialMedia[0],
+          teams: item.CompanyTeam,
+        };
+      })
+    );
   }
 
   return [];

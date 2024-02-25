@@ -41,6 +41,7 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
               </span>
               <div className="absolute top-10 w-[220px] h-10">
                 <Image
+                  unoptimized
                   src="/images/pattern2.png"
                   alt="/images/pattern2.png"
                   fill
@@ -57,12 +58,22 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
       </div>
       <div className="mt-20 mb-16 px-32 flex flex-row items-start gap-10">
         <div className="w-1/5">
-          <FormFilterDynamic
-            formFilter={formFilter}
-            onSubmitFilter={onSubmitFilter}
-            filterForms={filterForms}
-            onResetFilter={onResetFilter}
-          />
+          {type === "job" ? (
+            <FormFilterDynamic
+              formFilter={formFilter}
+              onSubmitFilter={onSubmitFilter}
+              filterForms={filterForms}
+              onResetFilter={onResetFilter}
+            />
+          ) : (
+            <FormFilterDynamic
+              formFilter={formFilter}
+              onSubmitFilter={onSubmitFilter}
+              filterForms={filterForms}
+              onResetFilter={onResetFilter}
+              isIndustry={true}
+            />
+          )}
         </div>
         <div className="w-4/5">
           <div className="mb-8">

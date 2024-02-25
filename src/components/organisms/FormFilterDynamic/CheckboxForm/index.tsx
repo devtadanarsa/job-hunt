@@ -22,6 +22,7 @@ interface CheckboxFormProps {
   items: optionType[];
   name: string;
   label: string;
+  isIndustry?: boolean;
 }
 
 const CheckboxForm: FC<CheckboxFormProps> = ({
@@ -29,6 +30,7 @@ const CheckboxForm: FC<CheckboxFormProps> = ({
   items,
   name,
   label,
+  isIndustry,
 }) => {
   return (
     <Accordion
@@ -59,19 +61,38 @@ const CheckboxForm: FC<CheckboxFormProps> = ({
                           className="flex flex-row items-start space-x-3 space-y-0"
                         >
                           <FormControl>
-                            <Checkbox
-                              className="rounded-none"
-                              checked={field.value?.includes(item.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, item.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value: any) => value !== item.id
-                                      )
-                                    );
-                              }}
-                            />
+                            {isIndustry ? (
+                              <Checkbox
+                                className="rounded-none"
+                                checked={field.value?.includes(item.label)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([
+                                        ...field.value,
+                                        item.label,
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value: any) => value !== item.label
+                                        )
+                                      );
+                                }}
+                              />
+                            ) : (
+                              <Checkbox
+                                className="rounded-none"
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, item.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value: any) => value !== item.id
+                                        )
+                                      );
+                                }}
+                              />
+                            )}
                           </FormControl>
                           <FormLabel className="font-normal">
                             {item.label}

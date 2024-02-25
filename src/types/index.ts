@@ -12,12 +12,37 @@ export type JobType = {
   skills: string[];
 };
 
+export type CompanyTeamType = {
+  id: string;
+  name: string;
+  position: string;
+  instagram: string;
+  linkedin: string;
+};
+
+export type CompanySocialMediaType = {
+  id: string;
+  instagram: string;
+  twitter: string;
+  facebook: string;
+  linkedin: string;
+  youtube: string;
+};
+
 export type CompanyType = {
+  id: string;
   image: string;
   totalJobs: number;
   name: string;
   description: string;
-  categories: string;
+  website: string;
+  location: string;
+  employee: string;
+  industry: string;
+  dateFounded: Date;
+  techStack: string[];
+  socialMedia: CompanySocialMediaType;
+  teams: CompanyTeamType;
 };
 
 export type optionType = {
