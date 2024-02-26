@@ -8,9 +8,8 @@ import React from "react";
 import { BiCategory } from "react-icons/bi";
 import prisma from "../../../../../../lib/prisma";
 import { supabasePublicUrl } from "@/lib/supabase";
-import { dateFormat } from "@/lib/utils";
+import { authOptions, dateFormat } from "@/lib/utils";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function getDetailJob(id: string) {
   const session = await getServerSession(authOptions);
