@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FC } from "react";
 import {
   Dialog,
   DialogContent,
@@ -28,40 +28,112 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import UploadField from "../UploadField";
+import { useSession } from "next-auth/react";
+import { supabaseUploadImg } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
-const FormModalApply = () => {
+interface FormModalApplyProps {
+  image: string;
+  roles: string | undefined;
+  location: string | undefined;
+  jobType: string | undefined;
+  id: string;
+  isApplied: number;
+}
+
+const FormModalApply: FC<FormModalApplyProps> = ({
+  image,
+  roles,
+  location,
+  jobType,
+  id,
+  isApplied,
+}) => {
+  const { data: session } = useSession();
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formApplySchema>>({
     resolver: zodResolver(formApplySchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formApplySchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formApplySchema>) => {
+    try {
+      const { fileName, error } = await supabaseUploadImg(
+        values.resume,
+        "applicant"
+      );
+
+      const reqData = {
+        userId: session?.user.id,
+        jobId: id,
+        resume: fileName,
+        coverLetter: values.coverLetter,
+        linkedIn: values.linkedIn,
+        phone: values.phone,
+        portofolio: values.portofolio,
+        previousJobTitle: values.previousJobTitle,
+      };
+
+      if (error) {
+        throw "Error";
+      }
+
+      await fetch("/api/job/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqData),
+      });
+
+      await toast({
+        title: "Success",
+        description: "Job Application Succeed",
+      });
+
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Please try again",
+      });
+    }
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="lg" className="text-lg px-12 py-6 rounded-none">
-          Apply
-        </Button>
+        {session && isApplied > 0 ? (
+          <Button size="lg" variant="outline" disabled>
+            You Already Applied
+          </Button>
+        ) : session ? (
+          <Button size="lg" className="text-lg px-12 py-6 rounded-none">
+            Apply
+          </Button>
+        ) : (
+          <Button size="lg" variant="outline" disabled>
+            Sign In to Apply
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <div>
           <div className="inline-flex items-center gap-4">
             <div>
               <Image
-                src="/images/company2.png"
-                alt="/images/company2.png"
+                src={image}
+                alt={image}
                 width={60}
                 height={60}
+                unoptimized
               />
             </div>
             <div>
-              <div className="text-lg font-semibold">
-                Social Media Assistant
-              </div>
+              <div className="text-lg font-semibold">{roles}</div>
               <div className="text-gray-500">
-                Agency . Paris, France . Full-Time
+                {location} . {jobType}
               </div>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import FormModalApply from "@/components/organisms/FormModalApply";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
@@ -10,8 +9,12 @@ import { BiCategory } from "react-icons/bi";
 import prisma from "../../../../../../lib/prisma";
 import { supabasePublicUrl } from "@/lib/supabase";
 import { dateFormat } from "@/lib/utils";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function getDetailJob(id: string) {
+  const session = await getServerSession(authOptions);
+
   const data = await prisma.job.findFirst({
     where: {
       id,
@@ -23,6 +26,7 @@ async function getDetailJob(id: string) {
         },
       },
       CategoryJob: true,
+      Applicant: true,
     },
   });
 
@@ -37,13 +41,23 @@ async function getDetailJob(id: string) {
     imageUrl = "/images/company2.png";
   }
 
-  return { ...data, image: imageUrl };
+  const benefits: any = data?.benefits;
+  const isApplied = await prisma.applicant.count({
+    where: {
+      jobId: data?.id,
+      userId: session?.user.id,
+    },
+  });
+
+  if (!session) {
+    return { ...data, image: imageUrl, isApplied: 0 };
+  }
+
+  return { ...data, image: imageUrl, isApplied, benefits };
 }
 
 const DetailJobPage = async ({ params }: { params: { id: string } }) => {
   const data = await getDetailJob(params.id);
-  console.log(data);
-  // const dataCompanyOverview = data?.Company?.CompanyOverview;
 
   return (
     <>
@@ -85,15 +99,20 @@ const DetailJobPage = async ({ params }: { params: { id: string } }) => {
               unoptimized
             />
             <div>
-              <div className="text-2xl font-semibold">
-                Social Media Assistant
-              </div>
+              <div className="text-2xl font-semibold">{data.roles}</div>
               <div className="text-muted-foreground">
                 {data?.Company?.CompanyOverview[0].location} . {data?.jobType}
               </div>
             </div>
           </div>
-          <FormModalApply />
+          <FormModalApply
+            image={data.image}
+            roles={data.roles!!}
+            location={data.Company?.CompanyOverview[0].location!!}
+            jobType={data.jobType!!}
+            id={data.id!!}
+            isApplied={data?.isApplied}
+          />
         </div>
       </div>
       <div className="px-32 py-16 flex flex-row items-start gap-10">
