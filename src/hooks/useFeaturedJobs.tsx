@@ -6,9 +6,9 @@ import useSWR from "swr";
 const useFeaturedJobs = (dateSorted: boolean) => {
   let url;
   if (dateSorted) {
-    url = "api/job/featured?sortByLatest=true";
+    url = "/api/job/featured?sortByLatest=true";
   } else {
-    url = "api/job/featured";
+    url = "/api/job/featured";
   }
 
   const { data, isLoading, error } = useSWR<any>(url, fetcher);

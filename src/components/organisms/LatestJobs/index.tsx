@@ -8,6 +8,7 @@ import { JobType } from "@/types";
 
 const LatestJobs = () => {
   const { featuredJobs, isLoading, error } = useFeaturedJobs(true);
+  console.log(featuredJobs);
 
   return (
     <div className="py-16 mt-10 mb-10 relative">

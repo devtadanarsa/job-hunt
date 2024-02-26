@@ -112,9 +112,10 @@ export const parsingCompanies = async (
   error: any
 ) => {
   if (!isLoading && !error && data) {
+    console.log(data);
     return await Promise.all(
       data.map(async (item: any) => {
-        let imageName = item.Company?.CompanyOverview[0]?.image;
+        let imageName = item.CompanyOverview[0]?.image;
         let imageUrl;
 
         if (imageName) {
