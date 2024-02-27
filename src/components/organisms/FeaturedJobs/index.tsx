@@ -8,12 +8,13 @@ import useFeaturedJobs from "@/hooks/useFeaturedJobs";
 
 const FeaturedJobs = () => {
   const { featuredJobs, isLoading, error } = useFeaturedJobs(false);
+  const limitedFeaturedJobs = featuredJobs.slice(0, 4);
 
   return (
     <div className="mt-32">
       <TitleSection wordOne="Featured" wordTwo="Jobs" />
       <div className="grid grid-cols-4 gap-8 mt-12">
-        {featuredJobs.map((item: JobType) => (
+        {limitedFeaturedJobs.map((item: JobType) => (
           <JobItem key={item.id} {...item} />
         ))}
       </div>

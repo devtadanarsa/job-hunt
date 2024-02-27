@@ -27,13 +27,13 @@ const Navbar = () => {
         <div>
           <Link
             href="/find-jobs"
-            className="font-normal text-gray-400 mr-4 cursor-pointer hover:text-primary"
+            className="font-normal text-gray-400 mr-4 cursor-pointer hover:text-primary transition-colors"
           >
             Find Jobs
           </Link>
           <Link
             href="/find-companies"
-            className="font-normal text-gray-400 mr-4 cursor-pointer hover:text-primary"
+            className="font-normal text-gray-400 mr-4 cursor-pointer hover:text-primary transition-colors"
           >
             Browse Companies
           </Link>
